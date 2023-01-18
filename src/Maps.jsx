@@ -3,18 +3,26 @@ import { MapContainer,FeatureGroup, TileLayer, Polygon, Circle } from 'react-lea
 import './App.css';
 import 'leaflet/dist/leaflet.css';
 import { EditControl } from "react-leaflet-draw"
-import { isPointInPolygon } from "leaflet-geometryutil";
-
+import { map } from 'leaflet';
+import classifyPoint from "robust-point-in-polygon"
 const location = [21.0000, 78.0000];
 const zoom = 5;
 
+// const hollywoodStudiosPolygon = [
+//   [
+//     [ 40.35390453844, 90.56443119049 ],
+//     [ 40.35390453844, 90.55619144439 ],
+//     [ 40.35983376526, 90.55619144439 ],
+//     [ 40.35983376526, 90.56443119049 ],
+//     [ 40.35390453844, 90.56443119049 ],
+//   ]
+// ];
 
-
-
+// const epcotCenter = [ 40.373711394092478, 90.54936790466309 ];
 
 function Maps() {
   const [maplayer,setMaplayer]=useState([])
-  const point=[20,30]
+  var result
   const _onCreate=e=>{
     console.log(e)
     const {layer,layerType}=e
@@ -22,7 +30,6 @@ function Maps() {
     if(layerType==="polygon")
     {
      
-      
       const id=layer._leaflet_id
       console.log("polygon")
       console.log(id)
@@ -30,17 +37,38 @@ function Maps() {
      
       const {_leaflet_id}=layer
       console.log(JSON.stringify(layer._latlngs[0]))
-      const data=JSON.stringify(layer._latlngs[0])
-      if(isPointInPolygon(point,data)){
-        console.log("Point inside polygon");
-    }else{
-        console.log("Point outside polygon");
-    }
+      const data=layer._latlngs[0]
+      // setMaplayer([...maplayer,{id,data}])
+      var ab=data
+      const d = [{"lat":30.813424171560843,"lng":72.73811672047044},
+      {"lat":25.524629679905697,"lng":71.66025922141586},
+      {"lat":24.845624986530257,"lng":80.70489128840295}];
+
+     
+     if(data.length>0)
+     {
+      console.log(data)
+      result = data.map(item => [item.lat,item.lng]);
+      console.log(result)
+      alert(classifyPoint(result,[27.080066368702738,77.6587721527467]))
+     }
       
-      console.log(JSON.stringify(maplayer,0,2))
+     
+     
       const datas={id:id,latlang:data}
       setMaplayer((old)=>[...old,datas])
-      
+      // setMaplayer([datas,...maplayer])
+      // console.log("Data:",maplayer)
+    }
+    else{
+      console.log(e)
+      var marks=[]
+      const relat=layer._latlng.lat
+      const relng=layer._latlng.lng
+      marks=[relat,relng]
+      console.log(marks)
+      console.log(result)
+      alert(classifyPoint(result,marks))
     }
    
 
@@ -78,7 +106,7 @@ function Maps() {
         polyline:false,
         circle:false,
         circlemarker:false,
-        marker:false
+        marker:true
       }}
     />
  

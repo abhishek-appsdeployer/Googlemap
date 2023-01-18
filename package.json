@@ -16,6 +16,7 @@
     "react-leaflet-draw": "^0.20.4",
     "react-map-gl": "^7.0.21",
     "react-scripts": "5.0.1",
+    "robust-point-in-polygon": "^1.0.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

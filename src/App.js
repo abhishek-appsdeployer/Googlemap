@@ -5,6 +5,7 @@ import L from 'leaflet';
 import pp from 'robust-point-in-polygon'
 import Maps from './Maps';
 import classifyPoint from "robust-point-in-polygon"
+import Mycomponent from './Mycomponent';
 
 function App() {
   var polygon = [[27.080076368702738,77.6587721527467],
@@ -31,6 +32,7 @@ console.log(
   return (
     <>
       <Maps/>
+      {/* <Mycomponent/> */}
 
     </>
       );
